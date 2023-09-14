@@ -6,6 +6,8 @@ const authRoutes = require("./routes/authRoutes");
 const tweetRoutes = require("./routes/tweetRoutes");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const morgan = require('morgan')
+
 
 const app = express();
 dotenv.config();
@@ -27,6 +29,7 @@ const port = process.env.PORT
 
 app.use(cors())
 app.use(express.json());
+app.use(morgan('dev'))
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
