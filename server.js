@@ -5,6 +5,7 @@ const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const tweetRoutes = require("./routes/tweetRoutes");
 const cookieParser = require("cookie-parser");
+const cors = require(cors);
 
 const app = express();
 dotenv.config();
@@ -24,6 +25,7 @@ connect();
 
 const port = process.env.PORT
 
+app.use(cors())
 app.use(express.json());
 app.use(cookieParser());
 
