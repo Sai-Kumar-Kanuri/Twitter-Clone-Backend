@@ -38,22 +38,20 @@ const updateUser = async (req, res, next) => {
 }
 
 const deleteUser = async (req, res, next) => {
-
-
     if (req.params.id === req.user.id) {
         try {
             await User.findByIdAndDelete(req.params.id);
-            await Tweet.remove({ userid: req.params.id });
+            await Tweet.remove({ userId: req.params.id });
 
-            res.status(200).json("User Deleted");
-        } catch (error) {
-            next(error);
+            res.status(200).json("User delete");
+        } catch (err) {
+            next(err);
         }
     } else {
-        next(handleError(403, "You can onlu update your own account"));
+        return next(handleError(403, "You can only update your own account"));
     }
+};
 
-}
 
 
 const follow = async (req, res, next) => {

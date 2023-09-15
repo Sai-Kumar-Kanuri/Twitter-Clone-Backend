@@ -54,10 +54,6 @@ const getAllTweets = async (req, res, next) => {
             })
         );
 
-        followersTweets.sort(function (x, y) {
-            return x.createdAt - y.createdAt;
-        });
-
         res.status(200).json(userTweets.concat(...followersTweets));
     } catch (err) {
         handleError(500, err);
@@ -81,10 +77,6 @@ const getExploreTweets = async (req, res, next) => {
         const getExploreTweets = await Tweet.find({
             likes: { $exists: true },
         }).sort({ likes: -1 });
-
-        getAllTweets.sort(function (x, y) {
-            return x.createdAt - y.createdAt;
-        })
 
         res.status(200).json(getExploreTweets);
     } catch (err) {
