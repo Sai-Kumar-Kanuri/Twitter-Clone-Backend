@@ -54,6 +54,10 @@ const getAllTweets = async (req, res, next) => {
             })
         );
 
+        followersTweets.sort(function (x, y) {
+            return x.createdAt - y.createdAt;
+        });
+
         res.status(200).json(userTweets.concat(...followersTweets));
     } catch (err) {
         handleError(500, err);
@@ -74,16 +78,20 @@ const getUserTweets = async (req, res, next) => {
 
 const getExploreTweets = async (req, res, next) => {
     try {
-      const getExploreTweets = await Tweet.find({
-        likes: { $exists: true },
-      }).sort({ likes: -1 });
-  
-      res.status(200).json(getExploreTweets);
+        const getExploreTweets = await Tweet.find({
+            likes: { $exists: true },
+        }).sort({ likes: -1 });
+
+        getAllTweets.sort(function (x, y) {
+            return x.createdAt - y.createdAt;
+        })
+
+        res.status(200).json(getExploreTweets);
     } catch (err) {
-      handleError(500, err);
+        handleError(500, err);
     }
-  };
+};
 
 
 
-module.exports = { createTweet, deleteTweet, likeOrDislike, getAllTweets, getUserTweets , getExploreTweets };
+module.exports = { createTweet, deleteTweet, likeOrDislike, getAllTweets, getUserTweets, getExploreTweets };
