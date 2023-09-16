@@ -1,4 +1,4 @@
-const handleError = require("../middleware/error");
+const handleError = require("../middleware/error.js");
 const Tweet = require("../models/tweetSchema");
 const User = require("../models/userModel");
 
@@ -23,7 +23,7 @@ const deleteTweet = async (req, res, next) => {
             handleError(500, err);
         }
     } catch (err) {
-        handleError(500, err);
+        next(handleError(500, err));
     }
 };
 
@@ -74,9 +74,16 @@ const getUserTweets = async (req, res, next) => {
 
 const getExploreTweets = async (req, res, next) => {
     try {
-        const getExploreTweets = await Tweet.find({
-            likes: { $exists: true },
-        }).sort({ likes: -1 });
+        const getExploreTweets = await Tweet.find({}).exec();
+
+        getExploreTweets.sort((a, b) => {
+            const dateA = new Date(a.createdAt);
+            const dateB = new Date(b.createdAt);
+            return dateB - dateA;
+        });
+
+        // console.log(getExploreTweets);
+
 
         res.status(200).json(getExploreTweets);
     } catch (err) {

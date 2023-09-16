@@ -1,4 +1,4 @@
-const handleError = require("../middleware/error");
+const handleError = require("../middleware/error.js");
 const User = require("../models/userModel");
 const Tweet = require("../models/tweetSchema");
 
@@ -32,7 +32,7 @@ const updateUser = async (req, res, next) => {
             next(error);
         }
     } else {
-        next(handleError(403, "You can onlu update your own account"));
+        next(handleError(403, "You can only update your own account"));
     }
 
 }
@@ -41,7 +41,7 @@ const deleteUser = async (req, res, next) => {
     if (req.params.id === req.user.id) {
         try {
             await User.findByIdAndDelete(req.params.id);
-            await Tweet.remove({ userId: req.params.id });
+            await Tweet.deleteOne({ userId: req.params.id });
 
             res.status(200).json("User delete");
         } catch (err) {
