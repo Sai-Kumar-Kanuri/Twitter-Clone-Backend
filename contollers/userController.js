@@ -75,7 +75,7 @@ const follow = async (req, res, next) => {
 
         res.status(200).json("following the user");
     } catch (error) {
-        next(error);
+        next(handleError(403, "You can only follow from your own account"));
     }
 
 }
@@ -101,7 +101,7 @@ const unfollow = async (req, res, next) => {
 
         res.status(200).json("unfollowing the user");
     } catch (error) {
-        next(error);
+        next(handleError(403, "You can only unfollow from your own account"));
     }
 
 }
