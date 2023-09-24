@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { handleError } = require("./error");
-
+const handleError = require("./error");
 const verifyToken = (req, res, next) => {
     const token = req.cookies.access_token;
 
